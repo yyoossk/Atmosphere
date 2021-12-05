@@ -347,7 +347,7 @@ namespace dbk {
 
         /* Copy result text if there is a result. */
         if (R_FAILED(rc)) {
-            snprintf(m_result_text, sizeof(m_result_text), "Result: 0x%08x", rc);
+            snprintf(m_result_text, sizeof(m_result_text), "結果: 0x%08x", rc);
         }
     }
 
@@ -375,7 +375,7 @@ namespace dbk {
         const float button_width = WindowWidth - HorizontalInset * 2.0f;
 
         /* Add buttons. */
-        this->AddButton(ExitButtonId, "Exit", x + HorizontalInset, button_y, button_width, ButtonHeight);
+        this->AddButton(ExitButtonId, "終了", x + HorizontalInset, button_y, button_width, ButtonHeight);
         this->SetButtonSelected(ExitButtonId, true);
     }
 
@@ -412,8 +412,8 @@ namespace dbk {
 
         const float button_y = y + TitleGap + SubTextHeight + VerticalGap * 2.0f + (R_FAILED(m_rc) ? SubTextHeight : 0.0f);
         const float button_width = (WindowWidth - HorizontalInset * 2.0f) / 2.0f - ButtonHorizontalGap;
-        this->AddButton(BackButtonId, "Back", x + HorizontalInset, button_y, button_width, ButtonHeight);
-        this->AddButton(ContinueButtonId, "Continue", x + HorizontalInset + button_width + ButtonHorizontalGap, button_y, button_width, ButtonHeight);
+        this->AddButton(BackButtonId, "戻る", x + HorizontalInset, button_y, button_width, ButtonHeight);
+        this->AddButton(ContinueButtonId, "続ける", x + HorizontalInset + button_width + ButtonHorizontalGap, button_y, button_width, ButtonHeight);
         this->SetButtonSelected(ContinueButtonId, true);
     }
 
@@ -450,8 +450,8 @@ namespace dbk {
         const float x = g_screen_width / 2.0f - WindowWidth / 2.0f;
         const float y = g_screen_height / 2.0f - WindowHeight / 2.0f;
 
-        this->AddButton(InstallButtonId, "Install", x + HorizontalInset, y + TitleGap, WindowWidth - HorizontalInset * 2, ButtonHeight);
-        this->AddButton(ExitButtonId, "Exit", x + HorizontalInset, y + TitleGap + ButtonHeight + VerticalGap, WindowWidth - HorizontalInset * 2, ButtonHeight);
+        this->AddButton(InstallButtonId, "インストール", x + HorizontalInset, y + TitleGap, WindowWidth - HorizontalInset * 2, ButtonHeight);
+        this->AddButton(ExitButtonId, "終了", x + HorizontalInset, y + TitleGap + ButtonHeight + VerticalGap, WindowWidth - HorizontalInset * 2, ButtonHeight);
         this->SetButtonSelected(InstallButtonId, true);
     }
 
@@ -475,24 +475,24 @@ namespace dbk {
                     u64 is_emummc;
 
                     if (R_FAILED(rc = splGetConfig(SplConfigItem_HardwareType, &hardware_type))) {
-                        ChangeMenu(std::make_shared<ErrorMenu>("An error has occurred", "Failed to get hardware type.", rc));
+                        ChangeMenu(std::make_shared<ErrorMenu>("エラーが発生しました", "ハードウェアタイプの取得に失敗しました。", rc));
                         return;
                     }
 
                     if (R_FAILED(rc = splGetConfig(static_cast<SplConfigItem>(ExosphereHasRcmBugPatch), &has_rcm_bug_patch))) {
-                        ChangeMenu(std::make_shared<ErrorMenu>("An error has occurred", "Failed to check RCM bug status.", rc));
+                        ChangeMenu(std::make_shared<ErrorMenu>("エラーが発生しました", "RCMのバグステータスの確認に失敗しました。", rc));
                         return;
                     }
 
                     if (R_FAILED(rc = splGetConfig(static_cast<SplConfigItem>(ExosphereEmummcType), &is_emummc))) {
-                        ChangeMenu(std::make_shared<ErrorMenu>("An error has occurred", "Failed to check emuMMC status.", rc));
+                        ChangeMenu(std::make_shared<ErrorMenu>("エラーが発生しました", "emuMMCステータスの確認に失敗しました。", rc));
                         return;
                     }
 
                     /* Warn if we're working with a patched unit. */
                     const bool is_erista = hardware_type == 0 || hardware_type == 1;
                     if (is_erista && has_rcm_bug_patch && !is_emummc) {
-                        ChangeMenu(std::make_shared<WarningMenu>(g_current_menu, file_menu, "Warning: Patched unit detected", "You may burn fuses or render your switch inoperable."));
+                        ChangeMenu(std::make_shared<WarningMenu>(g_current_menu, file_menu, "警告：パッチが適用されたユニットが検出されました", "ヒューズが切れたり、スイッチが動作しなくなったりする可能性があります"));
                     } else {
                         ChangeMenu(file_menu);
                     }
@@ -739,7 +739,7 @@ namespace dbk {
         const float x = g_screen_width / 2.0f - WindowWidth / 2.0f;
         const float y = g_screen_height / 2.0f - WindowHeight / 2.0f;
 
-        DrawWindow(vg, "Select an update directory", x, y, WindowWidth, WindowHeight);
+        DrawWindow(vg, "アップデータのディレクトリを選択します", x, y, WindowWidth, WindowHeight);
         DrawTextBackground(vg, x + TextBackgroundOffset, y + TitleGap, WindowWidth - TextBackgroundOffset * 2.0f, (FileRowHeight + FileRowGap) * MaxFileRows + FileRowGap);
 
         nvgSave(vg);
@@ -765,8 +765,8 @@ namespace dbk {
         const float button_width = (WindowWidth - HorizontalInset * 2.0f) / 2.0f - ButtonHorizontalGap;
 
         /* Add buttons. */
-        this->AddButton(BackButtonId, "Back", x + HorizontalInset, y + WindowHeight - BottomInset - ButtonHeight, button_width, ButtonHeight);
-        this->AddButton(ContinueButtonId, "Continue", x + HorizontalInset + button_width + ButtonHorizontalGap, y + WindowHeight - BottomInset - ButtonHeight, button_width, ButtonHeight);
+        this->AddButton(BackButtonId, "戻る", x + HorizontalInset, y + WindowHeight - BottomInset - ButtonHeight, button_width, ButtonHeight);
+        this->AddButton(ContinueButtonId, "続ける", x + HorizontalInset + button_width + ButtonHorizontalGap, y + WindowHeight - BottomInset - ButtonHeight, button_width, ButtonHeight);
         this->SetButtonEnabled(BackButtonId, false);
         this->SetButtonEnabled(ContinueButtonId, false);
 
@@ -776,32 +776,32 @@ namespace dbk {
             this->SetButtonSelected(BackButtonId, true);
         } else {
             /* Log this early so it is printed out before validation causes stalling. */
-            this->LogText("Validating update, this may take a moment...\n");
+            this->LogText("アップデータを検証しています。これには少し時間がかかる場合があります...\n");
         }
     }
 
     Result ValidateUpdateMenu::GetUpdateInformation() {
         Result rc = 0;
-        this->LogText("Directory %s\n", g_update_path);
+        this->LogText("ディレクトリ %s\n", g_update_path);
 
         /* Attempt to get the update information. */
         if (R_FAILED(rc = amssuGetUpdateInformation(&m_update_info, g_update_path))) {
             if (rc == 0x1a405) {
-                this->LogText("No update found in folder.\nEnsure your ncas are named correctly!\nResult: 0x%08x\n", rc);
+                this->LogText("フォルダにアップデータが見つかりません。\nncasの名前が正しいことを確認してください!\n結果: 0x%08x\n", rc);
             } else {
-                this->LogText("Failed to get update information.\nResult: 0x%08x\n", rc);
+                this->LogText("アップデータの情報を取得できませんでした。\n結果: 0x%08x\n", rc);
             }
             return rc;
         }
 
         /* Print update information. */
-        this->LogText("- Version: %d.%d.%d\n", (m_update_info.version >> 26) & 0x1f, (m_update_info.version >> 20) & 0x1f, (m_update_info.version >> 16) & 0xf);
+        this->LogText("- バージョン: %d.%d.%d\n", (m_update_info.version >> 26) & 0x1f, (m_update_info.version >> 20) & 0x1f, (m_update_info.version >> 16) & 0xf);
         if (m_update_info.exfat_supported) {
-            this->LogText("- exFAT: Supported\n");
+            this->LogText("- exFAT: サポート\n");
         } else {
-            this->LogText("- exFAT: Unsupported\n");
+            this->LogText("- exFAT: サポートされない\n");
         }
-        this->LogText("- Firmware variations: %d\n", m_update_info.num_firmware_variations);
+        this->LogText("- ファームウェアのバリエーション: %d\n", m_update_info.num_firmware_variations);
 
         /* Mark as having obtained update info. */
         m_has_info = true;
@@ -813,21 +813,21 @@ namespace dbk {
 
         /* Validate the update. */
         if (R_FAILED(rc = amssuValidateUpdate(&m_validation_info, g_update_path))) {
-            this->LogText("Failed to validate update.\nResult: 0x%08x\n", rc);
+            this->LogText("アップデータの検証に失敗しました\nResult: 0x%08x\n", rc);
             return;
         }
 
         /* Check the result. */
         if (R_SUCCEEDED(m_validation_info.result)) {
-            this->LogText("Update is valid!\n");
+            this->LogText("アップデータは有効です!\n");
 
             if (R_FAILED(m_validation_info.exfat_result)) {
                 const u32 version = m_validation_info.invalid_key.version;
-                this->LogText("exFAT Validation failed with result: 0x%08x\n", m_validation_info.exfat_result);
-                this->LogText("Missing content:\n- Program id: %016lx\n- Version: %d.%d.%d\n", m_validation_info.invalid_key.id, (version >> 26) & 0x1f, (version >> 20) & 0x1f, (version >> 16) & 0xf);
+                this->LogText("exFAT検証が結果で失敗しました: 0x%08x\n", m_validation_info.exfat_result);
+                this->LogText("不足しているコンテンツ:\n- プログラムid: %016lx\n- バージョン: %d.%d.%d\n", m_validation_info.invalid_key.id, (version >> 26) & 0x1f, (version >> 20) & 0x1f, (version >> 16) & 0xf);
 
                 /* Log the missing content id. */
-                this->LogText("- Content id: ");
+                this->LogText("- コンテントid: ");
                 for (size_t i = 0; i < sizeof(NcmContentId); i++) {
                     this->LogText("%02x", m_validation_info.invalid_content_id.c[i]);
                 }
@@ -841,11 +841,11 @@ namespace dbk {
         } else {
             /* Log the missing content info. */
             const u32 version = m_validation_info.invalid_key.version;
-            this->LogText("Validation failed with result: 0x%08x\n", m_validation_info.result);
-            this->LogText("Missing content:\n- Program id: %016lx\n- Version: %d.%d.%d\n", m_validation_info.invalid_key.id, (version >> 26) & 0x1f, (version >> 20) & 0x1f, (version >> 16) & 0xf);
+            this->LogText("結果で検証に失敗しました: 0x%08x\n", m_validation_info.result);
+            this->LogText("不足しているコンテンツ:\n- Program id: %016lx\n- バージョン: %d.%d.%d\n", m_validation_info.invalid_key.id, (version >> 26) & 0x1f, (version >> 20) & 0x1f, (version >> 16) & 0xf);
 
             /* Log the missing content id. */
-            this->LogText("- Content id: ");
+            this->LogText("- コンテントid: ");
             for (size_t i = 0; i < sizeof(NcmContentId); i++) {
                 this->LogText("%02x", m_validation_info.invalid_content_id.c[i]);
             }
@@ -897,13 +897,13 @@ namespace dbk {
 
                     /* Warn the user if they're updating with exFAT supposed to be supported but not present/corrupted. */
                     if (m_update_info.exfat_supported && R_FAILED(m_validation_info.exfat_result)) {
-                        next_menu = std::make_shared<WarningMenu>(g_current_menu, next_menu, "Warning: exFAT firmware is missing or corrupt", "Are you sure you want to proceed?");
+                        next_menu = std::make_shared<WarningMenu>(g_current_menu, next_menu, "警告：exFATファームウェアが見つからないか破損しています", "続行してもよろしいですか?");
                     }
 
                     /* Warn the user if they're updating to a version higher than supported. */
                     const u32 version = m_validation_info.invalid_key.version;
                     if (EncodeVersion((version >> 26) & 0x1f, (version >> 20) & 0x1f, (version >> 16) & 0xf) > g_supported_version) {
-                        next_menu = std::make_shared<WarningMenu>(g_current_menu, next_menu, "Warning: firmware is too new and not known to be supported", "Are you sure you want to proceed?");
+                        next_menu = std::make_shared<WarningMenu>(g_current_menu, next_menu, "警告: ファームウェアが新しすぎてサポートされていません", "続行してもよろしいですか?");
                     }
 
                     /* Change to the next menu. */
@@ -919,7 +919,7 @@ namespace dbk {
         const float x = g_screen_width / 2.0f - WindowWidth / 2.0f;
         const float y = g_screen_height / 2.0f - WindowHeight / 2.0f;
 
-        DrawWindow(vg, "Update information", x, y, WindowWidth, WindowHeight);
+        DrawWindow(vg, "情報", x, y, WindowWidth, WindowHeight);
         DrawTextBackground(vg, x + HorizontalInset, y + TitleGap, WindowWidth - HorizontalInset * 2.0f, TextAreaHeight);
         DrawTextBlock(vg, m_log_buffer, x + HorizontalInset + TextHorizontalInset, y + TitleGap + TextVerticalInset, WindowWidth - (HorizontalInset + TextHorizontalInset) * 2.0f, TextAreaHeight - TextVerticalInset * 2.0f);
 
@@ -933,8 +933,8 @@ namespace dbk {
         const float button_width = (WindowWidth - HorizontalInset * 2.0f) / 2.0f - ButtonHorizontalGap;
 
         /* Add buttons. */
-        this->AddButton(ResetToFactorySettingsButtonId, "Reset to factory settings", x + HorizontalInset, y + TitleGap, button_width, ButtonHeight);
-        this->AddButton(PreserveSettingsButtonId, "Preserve settings", x + HorizontalInset + button_width + ButtonHorizontalGap, y + TitleGap, button_width, ButtonHeight);
+        this->AddButton(ResetToFactorySettingsButtonId, "工場出荷時にリセット", x + HorizontalInset, y + TitleGap, button_width, ButtonHeight);
+        this->AddButton(PreserveSettingsButtonId, "そのまま続ける", x + HorizontalInset + button_width + ButtonHorizontalGap, y + TitleGap, button_width, ButtonHeight);
         this->SetButtonSelected(PreserveSettingsButtonId, true);
     }
 
@@ -963,11 +963,11 @@ namespace dbk {
             if (g_exfat_supported) {
                 next_menu = std::make_shared<ChooseExfatMenu>(g_current_menu);
             } else {
-                next_menu = std::make_shared<WarningMenu>(g_current_menu, std::make_shared<InstallUpdateMenu>(g_current_menu), "Ready to begin update installation", "Are you sure you want to proceed?");
+                next_menu = std::make_shared<WarningMenu>(g_current_menu, std::make_shared<InstallUpdateMenu>(g_current_menu), "アップデータのインストールを開始する準備ができました", "続行してもよろしいですか?");
             }
 
             if (g_reset_to_factory) {
-                ChangeMenu(std::make_shared<WarningMenu>(g_current_menu, next_menu, "Warning: Factory reset selected", "Saves and installed games will be permanently deleted."));
+                ChangeMenu(std::make_shared<WarningMenu>(g_current_menu, next_menu, "警告: 工場出荷時のリセットが選択されました", "インストールしたゲームは完全に削除されます。"));
             } else {
                 ChangeMenu(next_menu);
             }
@@ -985,7 +985,7 @@ namespace dbk {
         const float x = g_screen_width / 2.0f - WindowWidth / 2.0f;
         const float y = g_screen_height / 2.0f - WindowHeight / 2.0f;
 
-        DrawWindow(vg, "Select settings mode", x, y, WindowWidth, WindowHeight);
+        DrawWindow(vg, "設定を選択", x, y, WindowWidth, WindowHeight);
         this->DrawButtons(vg, ns);
     }
 
@@ -995,8 +995,8 @@ namespace dbk {
         const float button_width = (WindowWidth - HorizontalInset * 2.0f) / 2.0f - ButtonHorizontalGap;
 
         /* Add buttons. */
-        this->AddButton(Fat32ButtonId, "Install (FAT32)", x + HorizontalInset, y + TitleGap, button_width, ButtonHeight);
-        this->AddButton(ExFatButtonId, "Install (FAT32 + exFAT)", x + HorizontalInset + button_width + ButtonHorizontalGap, y + TitleGap, button_width, ButtonHeight);
+        this->AddButton(Fat32ButtonId, "インストール(FAT32)", x + HorizontalInset, y + TitleGap, button_width, ButtonHeight);
+        this->AddButton(ExFatButtonId, "インストール(FAT32+exFAT)", x + HorizontalInset + button_width + ButtonHorizontalGap, y + TitleGap, button_width, ButtonHeight);
 
         /* Set the default selected button based on the user's current install. We aren't particularly concerned if fsIsExFatSupported fails. */
         bool exfat_supported = false;
@@ -1029,7 +1029,7 @@ namespace dbk {
                     break;
             }
 
-            ChangeMenu(std::make_shared<WarningMenu>(g_current_menu, std::make_shared<InstallUpdateMenu>(g_current_menu), "Ready to begin update installation", "Are you sure you want to proceed?"));
+            ChangeMenu(std::make_shared<WarningMenu>(g_current_menu, std::make_shared<InstallUpdateMenu>(g_current_menu), "更新の準備ができました", "続行してもよろしいですか?"));
         }
 
         this->UpdateButtons();
@@ -1044,7 +1044,7 @@ namespace dbk {
         const float x = g_screen_width / 2.0f - WindowWidth / 2.0f;
         const float y = g_screen_height / 2.0f - WindowHeight / 2.0f;
 
-        DrawWindow(vg, "Select driver variant", x, y, WindowWidth, WindowHeight);
+        DrawWindow(vg, "ドライバーを選択", x, y, WindowWidth, WindowHeight);
         this->DrawButtons(vg, ns);
     }
 
@@ -1054,8 +1054,8 @@ namespace dbk {
         const float button_width = (WindowWidth - HorizontalInset * 2.0f) / 2.0f - ButtonHorizontalGap;
 
         /* Add buttons. */
-        this->AddButton(ShutdownButtonId, "Shutdown", x + HorizontalInset, y + WindowHeight - BottomInset - ButtonHeight, button_width, ButtonHeight);
-        this->AddButton(RebootButtonId, "Reboot", x + HorizontalInset + button_width + ButtonHorizontalGap, y + WindowHeight - BottomInset - ButtonHeight, button_width, ButtonHeight);
+        this->AddButton(ShutdownButtonId, "シャットダウン", x + HorizontalInset, y + WindowHeight - BottomInset - ButtonHeight, button_width, ButtonHeight);
+        this->AddButton(RebootButtonId, "再起動", x + HorizontalInset + button_width + ButtonHorizontalGap, y + WindowHeight - BottomInset - ButtonHeight, button_width, ButtonHeight);
         this->SetButtonEnabled(ShutdownButtonId, false);
         this->SetButtonEnabled(RebootButtonId, false);
 
@@ -1075,34 +1075,34 @@ namespace dbk {
         if (m_install_state == InstallState::NeedsSetup) {
             /* Setup the update. */
             if (R_FAILED(rc = amssuSetupUpdate(nullptr, UpdateTaskBufferSize, g_update_path, g_use_exfat))) {
-                this->LogText("Failed to setup update.\nResult: 0x%08x\n", rc);
+                this->LogText("更新の設定に失敗しました。\nResult: 0x%08x\n", rc);
                 this->MarkForReboot();
                 return rc;
             }
 
             /* Log setup completion. */
-            this->LogText("Update setup complete.\n");
+            this->LogText("更新ののセットアップが完了しました。\n");
             m_install_state = InstallState::NeedsPrepare;
         } else if (m_install_state == InstallState::NeedsPrepare) {
             /* Request update preparation. */
             if (R_FAILED(rc = amssuRequestPrepareUpdate(&m_prepare_result))) {
-                this->LogText("Failed to request update preparation.\nResult: 0x%08x\n", rc);
+                this->LogText("更新の準備を要求できませんでした。\n結果: 0x%08x\n", rc);
                 this->MarkForReboot();
                 return rc;
             }
 
             /* Log awaiting prepare. */
-            this->LogText("Preparing update...\n");
+            this->LogText("更新の準備中...\n");
             m_install_state = InstallState::AwaitingPrepare;
         } else if (m_install_state == InstallState::AwaitingPrepare) {
             /* Check if preparation has a result. */
             if (R_FAILED(rc = asyncResultWait(&m_prepare_result, 0)) && rc != 0xea01) {
-                this->LogText("Failed to check update preparation result.\nResult: 0x%08x\n", rc);
+                this->LogText("更新準備結果の確認に失敗しました。\n結果: 0x%08x\n", rc);
                 this->MarkForReboot();
                 return rc;
             } else if (R_SUCCEEDED(rc)) {
                 if (R_FAILED(rc = asyncResultGet(&m_prepare_result))) {
-                    this->LogText("Failed to prepare update.\nResult: 0x%08x\n", rc);
+                    this->LogText("更新の準備に失敗しました。\n結果: 0x%08x\n", rc);
                     this->MarkForReboot();
                     return rc;
                 }
@@ -1111,14 +1111,14 @@ namespace dbk {
             /* Check if the update has been prepared. */
             bool prepared;
             if (R_FAILED(rc = amssuHasPreparedUpdate(&prepared))) {
-                this->LogText("Failed to check if update has been prepared.\nResult: 0x%08x\n", rc);
+                this->LogText("アップデートが準備されているかどうかの確認に失敗しました。\n結果: 0x%08x\n", rc);
                 this->MarkForReboot();
                 return rc;
             }
 
             /* Mark for application if preparation complete. */
             if (prepared) {
-                this->LogText("Update preparation complete.\nApplying update...\n");
+                this->LogText("更新の準備が完了しました。\n更新を適用しています...\n");
                 m_install_state = InstallState::NeedsApply;
                 return rc;
             }
@@ -1126,7 +1126,7 @@ namespace dbk {
             /* Check update progress. */
             NsSystemUpdateProgress update_progress = {};
             if (R_FAILED(rc = amssuGetPrepareUpdateProgress(&update_progress))) {
-                this->LogText("Failed to check update progress.\nResult: 0x%08x\n", rc);
+                this->LogText("更新の進行状況を確認できませんでした。\n結果: 0x%08x\n", rc);
                 this->MarkForReboot();
                 return rc;
             }
@@ -1140,28 +1140,28 @@ namespace dbk {
         } else if (m_install_state == InstallState::NeedsApply) {
             /* Apply the prepared update. */
             if (R_FAILED(rc = amssuApplyPreparedUpdate())) {
-                this->LogText("Failed to apply update.\nResult: 0x%08x\n", rc);
+                this->LogText("更新の適用に失敗しました。\n結果: 0x%08x\n", rc);
             } else {
                 /* Log success. */
-                this->LogText("Update applied successfully.\n");
+                this->LogText("更新が正常に適用されました。\n");
 
                 if (g_reset_to_factory) {
                     if (R_FAILED(rc = nsResetToFactorySettingsForRefurbishment())) {
                         /* Fallback on ResetToFactorySettings. */
                         if (rc == MAKERESULT(Module_Libnx, LibnxError_IncompatSysVer)) {
                             if (R_FAILED(rc = nsResetToFactorySettings())) {
-                                this->LogText("Failed to reset to factory settings.\nResult: 0x%08x\n", rc);
+                                this->LogText("工場出荷時の設定にリセットできませんでした。\n結果: 0x%08x\n", rc);
                                 this->MarkForReboot();
                                 return rc;
                             }
                         } else {
-                            this->LogText("Failed to reset to factory settings for refurbishment.\nResult: 0x%08x\n", rc);
+                            this->LogText("改修のために工場出荷時の設定にリセットできませんでした。\n結果: 0x%08x\n", rc);
                             this->MarkForReboot();
                             return rc;
                         }
                     }
 
-                    this->LogText("Successfully reset to factory settings.\n", rc);
+                    this->LogText("工場出荷時の設定に正常にリセットされました。\n", rc);
                 }
             }
 
@@ -1201,7 +1201,7 @@ namespace dbk {
         const float x = g_screen_width / 2.0f - WindowWidth / 2.0f;
         const float y = g_screen_height / 2.0f - WindowHeight / 2.0f;
 
-        DrawWindow(vg, "Installing update", x, y, WindowWidth, WindowHeight);
+        DrawWindow(vg, "アップデータをインストール", x, y, WindowWidth, WindowHeight);
         DrawProgressText(vg, x + HorizontalInset, y + TitleGap, m_progress_percent);
         DrawProgressBar(vg, x + HorizontalInset, y + TitleGap + ProgressTextHeight, WindowWidth - HorizontalInset * 2.0f, ProgressBarHeight, m_progress_percent);
         DrawTextBackground(vg, x + HorizontalInset, y + TitleGap + ProgressTextHeight + ProgressBarHeight + VerticalGap, WindowWidth - HorizontalInset * 2.0f, TextAreaHeight);
@@ -1211,7 +1211,7 @@ namespace dbk {
 
         /* We have drawn now, allow setup to occur. */
         if (m_install_state == InstallState::NeedsDraw) {
-            this->LogText("Beginning update setup...\n");
+            this->LogText("更新のセットアップの開始...\n");
             m_install_state = InstallState::NeedsSetup;
         }
     }
@@ -1236,7 +1236,7 @@ namespace dbk {
         /* Attempt to get the exosphere version. */
         u64 version;
         if (R_FAILED(rc = splGetConfig(static_cast<SplConfigItem>(ExosphereApiVersionConfigItem), &version))) {
-            ChangeMenu(std::make_shared<ErrorMenu>("Atmosphere not found", "Daybreak requires Atmosphere to be installed.", rc));
+            ChangeMenu(std::make_shared<ErrorMenu>("雰囲気が見つかりません", "Daybreakを使用するにはAtmosphereを起動する必要があります。", rc));
             return false;
         }
 
@@ -1247,13 +1247,13 @@ namespace dbk {
         /* Validate the exosphere version. */
         const bool ams_supports_sysupdate_api = EncodeVersion(version_major, version_minor, version_micro) >= EncodeVersion(0, 14, 0);
         if (!ams_supports_sysupdate_api) {
-            ChangeMenu(std::make_shared<ErrorMenu>("Outdated Atmosphere version", "Daybreak requires Atmosphere 0.14.0 or later.", rc));
+            ChangeMenu(std::make_shared<ErrorMenu>("古いバージョンのAtmosphere", "DaybreakはAtmosphere 0.14.0またはそれより新しいバージョンが必要です.", rc));
             return false;
         }
 
         /* Ensure DayBreak is ran as a NRO. */
         if (envIsNso()) {
-            ChangeMenu(std::make_shared<ErrorMenu>("Unsupported Environment", "Please launch Daybreak via the Homebrew menu.", rc));
+            ChangeMenu(std::make_shared<ErrorMenu>("サポートされていない環境", "hbmからDaybreakを起動してください。", rc));
             return false;
         }
 
